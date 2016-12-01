@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'dalton.urls'
+ROOT_URLCONF = 'rodriguez.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'dalton.wsgi.application'
+WSGI_APPLICATION = 'rodriguez.wsgi.application'
 
 
 # Database
