@@ -3,46 +3,18 @@
 <html lang="en-US">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <link rel="stylesheet" type="text/css" href="{% static 'css/sliderpro.css' %}" media="all">
       <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css' %}" media="all">
       <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" media="all">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" media="all">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Maricela Rodriguez D.D.S - Chattanooga Dentist</title>
-      <style type="text/css">
-         body #booked-profile-page input[type=submit].button-primary:hover,
-         body table.booked-calendar input[type=submit].button-primary:hover,
-         body .booked-modal input[type=submit].button-primary:hover,
-         body table.booked-calendar thead,
-         body table.booked-calendar thead th,
-         body table.booked-calendar .booked-appt-list .timeslot .timeslot-people button:hover,
-         body #booked-profile-page .booked-profile-appt-list .appt-block .google-cal-button,
-         body #booked-profile-page .booked-profile-header{background:#c4f2d4 !important}body #booked-profile-page input[type=submit].button-primary:hover,
-         body table.booked-calendar input[type=submit].button-primary:hover,
-         body .booked-modal input[type=submit].button-primary:hover,
-         body table.booked-calendar th,
-         body table.booked-calendar .booked-appt-list .timeslot .timeslot-people button:hover,
-         body #booked-profile-page .booked-profile-appt-list .appt-block .google-cal-button,
-         body #booked-profile-page .booked-profile-header{border-color:#c4f2d4 !important}body table.booked-calendar tr.days,
-         body table.booked-calendar tr.days th,
-         body .booked-calendarSwitcher,
-         body .booked-calendarSwitcher
-         select{background:#039146 !important}body table.booked-calendar tr.days
-         th{border-color:#039146 !important}body #booked-profile-page input[type=submit].button-primary,
-         body table.booked-calendar input[type=submit].button-primary,
-         body .booked-modal input[type=submit].button-primary,
-         body table.booked-calendar .booked-appt-list .timeslot .timeslot-people button,
-         body #booked-profile-page .booked-profile-appt-list .appt-block.approved .status-block{background:#0bbe5f}body #booked-profile-page input[type=submit].button-primary,
-         body table.booked-calendar input[type=submit].button-primary,
-         body .booked-modal input[type=submit].button-primary,
-         body table.booked-calendar .booked-appt-list .timeslot .timeslot-people
-         button{border-color:#0bbe5f}
-      </style>
       <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
       <script type="text/javascript" src="{% static 'js/site.js' %}"></script>
-      <style type="text/css">img.wp-smiley,img.emoji{display:inline !important;border:none !important;box-shadow:none !important;height:1em !important;width:1em !important;margin:0
-         .07em !important;vertical-align:-0.1em !important;background:none !important;padding:0
-         !important}
-      </style>
+      <script type="text/javascript" src="{% static 'js/plugins.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/angular.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/angular-messages.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/contactApp.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/angular-busy.min.js' %}"></script>
       <link rel="stylesheet" id="booked-gf-css" href="//fonts.googleapis.com/css?family=Open+Sans%3A600%2C400%7CMontserrat%3A700%2C400&amp;subset=cyrillic%2Ccyrillic-ext%2Clatin%2Cgreek-ext%2Cgreek%2Clatin-ext%2Cvietnamese&amp;ver=1.6.11" type="text/css" media="all">
       <link rel="stylesheet" id="cherry-google-fonts-css" href="//fonts.googleapis.com/css?family=Lora%3A400%2C400italic%7CGreat+Vibes%3A400%7CMontserrat%3A400&amp;subset=latin&amp;ver=4.5.4" type="text/css" media="all">
       <style type="text/css">
@@ -176,7 +148,79 @@
       </style>
       <style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style>
    </head>
-   <body class="home page page-id-65 page-template-default header-layout-boxed content-layout-fullwidth footer-layout-boxed blog-default position-fullwidth sidebar-1-3 tm_pb_builder" cz-shortcut-listen="true">
+   <body ng-app="avaApp" class="home page page-id-65 page-template-default header-layout-boxed content-layout-fullwidth footer-layout-boxed blog-default position-fullwidth sidebar-1-3 tm_pb_builder" cz-shortcut-listen="true">
+
+       <!-- Appointment Form -->
+       <!-- modal contact form -->
+       <div
+           ng-controller="appointmentFormController as contact"
+           class="modal fade" id="appointmentFormModal"
+           tabindex="-1" role="dialog"
+           aria-labelledby="appointmentFormModalLabel"
+           aria-hidden="true">
+           <div class="modal-dialog" cg-busy="{promise:appointmentPromise,templateUrl:'{% static 'html/busy.html' %}'}">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                       <h4 class="modal-title" id="appointmentFormModalLabel">Make Appointment</h4>
+                   </div>
+                   <div class="modal-body" ng-show="is_sent">
+                           Message sent. We'll get back to you shortly. You may close this dialog.
+                   </div>
+                   <div class="modal-body" ng-show="!is_sent">
+                           <p>We will do our best to contact you within one (1) business day at the phone number provided to schedule your appointment. We will make every attempt possible to accommodate your appointment request and look forward to seeing you soon!</p>
+                           <form class="nobottommargin" id="appointmentForm" name="appointmentForm" novalidate>
+                               {% csrf_token %}
+                               <div class="form-process"></div>
+                               <div class="col_half">
+                                   <label for="appointmentForm-name">Name <small>*</small></label>
+                                   <input ng-model="contact.name" type="text" id="appointmentForm-name" name="contact_name" class="sm-form-control required" required />
+                                   <div class="help-block" ng-messages="appointmentForm.contact_name.$error" ng-show="appointmentForm.contact_name.$touched">
+                                       <div ng-message="required">This field is required</div>
+                                   </div>
+                               </div>
+                               <div class="col_half col_last">
+                                   <label for="appointmentForm-email">Email <small>*</small></label>
+                                   <input ng-model="contact.email" type="email" id="appointmentForm-email" name="contact_email" class="required email sm-form-control" required />
+                                   <div class="help-block" ng-messages="appointmentForm.contact_email.$error" ng-show="appointmentForm.contact_email.$touched">
+                                       <div ng-message="required">This field is required</div>
+                                       <div ng-message="email">Your email address is invalid</div>
+                                   </div>
+                               </div>
+                               <div class="col_half">
+                                   <label for="appointmentForm-name">Phone Number <small>*</small></label>
+                                   <input ng-model="contact.phone" type="text" id="appointmentForm-phone" name="contact_phone" class="sm-form-control required" required />
+                                   <div class="help-block" ng-messages="appointmentForm.contact_phone.$error" ng-show="appointmentForm.contact_phone.$touched">
+                                       <div ng-message="required">This field is required</div>
+                                   </div>
+                               </div>
+                               <div class="col_half col_last">
+                                   <label for="appointmentForm-time">Preferred Time <small></small></label>
+                                   <select ng-model="contact.time" id="appointmentForm-time" name="appointmentForm-time" class="sm-form-control">
+                                       <option value="Morning">Morning</option>
+                                       <option value="Afternoon">Afternoon</option>
+                                   </select>
+                               </div>
+                               <div class="clear"></div>
+                               <div class="col_full">
+                                   <label for="appointmentForm-message">Message <small>*</small></label>
+                                   <textarea ng-model="contact.message" class="required sm-form-control" id="contact_message" name="contact_message" rows="6" cols="30" required></textarea>
+                                   <div ng-messages="appointmentForm.contact_message.$error" ng-show="appointmentForm.contact_message.$touched">
+                                       <div ng-message="required">This field is required</div>
+                                   </div>
+                               </div>
+                               <div class="col_full">
+                                   <button ng-click="send()" ng-disabled="appointmentForm.$invalid" class="button nomargin center" id="appointmentForm-submit" name="appointmentForm-submit" value="submit">Send Message</button>
+                               </div>
+                           </form>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                   </div>
+               </div><!-- /.modal-content -->
+           </div><!-- /.modal-dialog -->
+       </div><!-- /.modal -->
+       <!-- Modal Contact Form End -->
       <div id="page" class="site">
          <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
          <header id="masthead" class="site-header centered container" role="banner">
@@ -184,6 +228,7 @@
                <div class="header-container_wrap container">
                   <div class="header-flex-container">
                      <div class="header_left_text">
+                         <a href="tel:(423)899-6949">
                         <div class="phone-info">
                            <p>Call Today!</p>
                            <a href="tel:(423)899-6949">(423) 899-6949</a>
@@ -192,23 +237,23 @@
                      <div class="site-branding">
                         <div class="site-logo"><a class="site-logo__link" href="/" rel="home"><img src="{% static 'images/logo.png' %}" alt="Rodriguez" class="site-link__img"></a></div>
                      </div>
-                     <div class="header_right_text"> <a href="/" class="btn with_bg">Make Appointment Online</a></div>
+                     <div class="header_right_text"> <a href="#" data-toggle="modal" data-target="#appointmentFormModal" class="btn with_bg">Make Appointment Online</a></div>
                   </div>
                   <div class="site-menu">
                      <nav id="site-navigation" class="main-navigation" role="navigation">
                         <button class="menu-toggle" aria-controls="main-menu" aria-expanded="false"><i class="material-icons">subject</i></button>
-                        <ul id="main-menu" class="menu">
-                           <li id="menu-item-1056" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-65 current_page_item menu-item-1056">
+                        <ul id="main-menu" class="menu" style="active">
+                           <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-65 current_page_item menu-item-1056">
                               <a href="#home">Home</a>
                            </li>
-                           <li id="menu-item-699" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-699">
+                           <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-699">
                                <a href="#doctor">Our Doctor</a>
                            </li>
-                           <li id="menu-item-700" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-700">
-                              <a href="#services">Services</a>
+                           <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-700">
+                              <a href="#section-services">Services</a>
                            </li>
-                           <li id="menu-item-709" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-709">
-                               <a href="#contact">Contact Us</a>
+                           <li iclass="menu-item menu-item-type-post_type menu-item-object-page menu-item-709">
+                               <a href="#section-contact">Contact Us</a>
                            </li>
                         </ul>
                      </nav>
@@ -238,10 +283,10 @@
                                                          <div class="tm_pb_slide_description">
                                                             <div class="tm_pb_slide_content">
                                                                <h1 style="text-align: left;">Smiles that last a lifetime</h1>
-                                                               <p>When you visit our office, your smile is our top priority...</p>
+                                                               <p>When you visit our office, your comfort and smile is our top priority...</p>
                                                                <p>Our entire team is dedicated to providing you with the personalized, <br>gentle care that you deserve.</p>
                                                             </div>
-                                                            <a href="#" class="tm_pb_more_button tm_pb_button">more info</a>
+                                                            <a href="#section-why" class="tm_pb_more_button tm_pb_button">Learn More</a>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -285,7 +330,7 @@
                                              </div>
                                              <div class="tm_pb_column tm_pb_column_1_2  tm_pb_column_2 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                 <div class="tm_pb_module tm-waypoint tm_pb_image tm_pb_animation_off img_add2 tm_pb_image_0 tm_always_center_on_mobile">
-                                                    <img src="{% static 'images/doc.jpg' %}" alt="" />
+                                                    <img src="{% static 'images/doc.jpg' %}" alt="Dr. Rodriguez" style="margin-top: 0px;" />
                                                 </div>
                                              </div>
                                           </div>
@@ -298,7 +343,7 @@
                                            </div>
                                        </div>
                                    </div>
-                                   <div id="testimony" class="tm_pb_section  tm_pb_section_4 tm_pb_with_background tm_section_regular">
+                                   <div id="testimony" class="tm_pb_section tm_pb_section_4 tm_pb_with_background tm_section_regular">
                                       <div class="container">
                                          <div class=" row tm_pb_row tm_pb_row_9">
                                             <div class="tm_pb_column tm_pb_column_4_4  tm_pb_column_13 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -327,7 +372,7 @@
                                          </div>
                                       </div>
                                    </div>
-                                    <div id="services" class="tm_pb_section  tm_pb_section_1 tm_section_regular tm_section_transparent">
+                                    <div id="section-services" class="tm_pb_section  tm_pb_section_1 tm_section_regular tm_section_transparent">
                                        <div class="container">
                                           <div class=" row tm_pb_row tm_pb_row_1">
                                              <div class="tm_pb_column tm_pb_column_4_4  tm_pb_column_1 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -344,9 +389,9 @@
                                              <div class="tm_pb_column tm_pb_column_1_2  tm_pb_column_2 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                 <div class="tm_pb_link_box text-color-1 float-xl-right tm_pb_link_box_0 tm_pb_module">
                                                    <div class="tm_pb_link_box_content" style="background-image:url();">
-                                                      <h2 class="tm_pb_link_box_title">General</h2>
+                                                      <h2 class="tm_pb_link_box_title">Preventative</h2>
                                                       <div class="tm_pb_blurb_content">
-                                                         <p>Waxing is a vital way to keep your skin elastic, clean and smooth…</p>
+                                                         <p>Cleaning or routine check up</p>
                                                       </div>
                                                       <div class="tm_pb_link_box_button_holder"><a class="tm_pb_button" href="#">more info</a></div>
                                                    </div>
@@ -415,13 +460,13 @@
                                        </div>
                                    </div>
 
-                                   <div class="tm_pb_section  tm_pb_section_3 tm_section_regular tm_section_transparent">
+                                   <div id="section-why" class="tm_pb_section  tm_pb_section_3 tm_section_regular tm_section_transparent">
                                        <div class="container">
                                           <div class=" row tm_pb_row tm_pb_row_5">
                                              <div class="tm_pb_column tm_pb_column_4_4  tm_pb_column_7 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                 <hr class="tm_pb_module tm_pb_space tm_pb_divider_10">
                                                 <div class="tm_pb_text tm_pb_module tm_pb_bg_layout_light tm_pb_text_align_center  tm_pb_text_2">
-                                                   <h2>We’re a #1 Orlando SPA for a number of reasons:</h2>
+                                                   <h2>Our patients comeback to us for a number of reasons:</h2>
                                                 </div>
                                              </div>
                                           </div>
@@ -435,7 +480,7 @@
                                                       <div class="tm_pb_blurb_container">
                                                          <h4><a href="http://ld-wp.template-help.com/wordpress_59014/specialists/">Variety of Care</a></h4>
                                                          <div class="tm_pb_blurb_content">
-                                                            <p>Our salon is unique among other Orlando SPAs, all thanks to an insurmountable variety of skin care and relaxation choices that we have…</p>
+                                                            <p>Our office is unique among other dental offices, all thanks to an insurmountable variety of dental services that we offer…</p>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -449,7 +494,7 @@
                                                       <div class="tm_pb_blurb_container">
                                                          <h4><a href="http://ld-wp.template-help.com/wordpress_59014/team/">Qualified Staff</a></h4>
                                                          <div class="tm_pb_blurb_content">
-                                                            <p>All of the salon’s staff members are perfectly qualified to get you relaxed &amp; cared for… That’s all due to their immense talent and skills their hands have…</p>
+                                                            <p>Our staff members are perfectly qualified to get you relaxed &amp; cared for… That’s all due to their immense talent and skills their hands have…</p>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -463,11 +508,11 @@
                                              <div class="tm_pb_column tm_pb_column_1_2  tm_pb_column_10 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                 <div class="tm_pb_blurb float-xl-right icon-with-bg tm_pb_blurb_3 tm_pb_bg_layout_light tm_pb_text_align_center tm_pb_blurb_position_top tm_pb_module">
                                                    <div class="tm_pb_blurb_content">
-                                                      <div class="tm_pb_main_blurb_image"><a href="http://ld-wp.template-help.com/wordpress_59014/spa-skin-care/"><span class="tm-pb-icon tm-waypoint tm_pb_animation_off tm-animated" style="color: #c4bbb2;" data-icon=""></span></a></div>
+                                                      <div class="tm_pb_main_blurb_image"><a href="#"><span class="tm-pb-icon tm-waypoint tm_pb_animation_off tm-animated" style="color: #c4bbb2;" data-icon=""></span></a></div>
                                                       <div class="tm_pb_blurb_container">
-                                                         <h4><a href="http://ld-wp.template-help.com/wordpress_59014/spa-skin-care/">Relaxation-centric</a></h4>
+                                                         <h4><a href="#">Patient Focused</a></h4>
                                                          <div class="tm_pb_blurb_content">
-                                                            <p>First and foremost, we’re a relaxation getaway… With the help of our nurturing and skin health enhancing services you’ll be feeling yourself just like in heaven!</p>
+                                                            <p>First and foremost, we’re a focused on you! With the help of our staff, you’ll be feeling relaxed and comfortable!</p>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -477,11 +522,11 @@
                                              <div class="tm_pb_column tm_pb_column_1_2  tm_pb_column_11 col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                                                 <div class="tm_pb_blurb float-xl-left icon-with-bg tm_pb_blurb_4 tm_pb_bg_layout_light tm_pb_text_align_center tm_pb_blurb_position_top tm_pb_module">
                                                    <div class="tm_pb_blurb_content">
-                                                      <div class="tm_pb_main_blurb_image"><a href="http://ld-wp.template-help.com/wordpress_59014/pricing/"><span class="tm-pb-icon tm-waypoint tm_pb_animation_off tm-animated" style="color: #c4bbb2;" data-icon=""></span></a></div>
+                                                      <div class="tm_pb_main_blurb_image"><a href="#"><span class="tm-pb-icon tm-waypoint tm_pb_animation_off tm-animated" style="color: #c4bbb2;" data-icon=""></span></a></div>
                                                       <div class="tm_pb_blurb_container">
-                                                         <h4><a href="http://ld-wp.template-help.com/wordpress_59014/pricing/">Reasonable costs</a></h4>
+                                                         <h4><a href="#">Reasonable costs</a></h4>
                                                          <div class="tm_pb_blurb_content">
-                                                            <p>As opposed to other Orlando or Florida SPAs, we do not target people’s wallets eagerly… Our prices affordability goes intact with our services quality!</p>
+                                                            <p>As opposed to other dental offices, we do not target people’s wallets eagerly… Our prices affordability goes intact with our services quality!</p>
                                                          </div>
                                                       </div>
                                                    </div>
@@ -491,13 +536,72 @@
                                           </div>
                                        </div>
                                        <div class="container">
-                                          <div class=" row tm_pb_row tm_pb_row_8">
+                                          <div class="row tm_pb_row tm_pb_row_8">
                                              <div class="tm_pb_column tm_pb_column_4_4  tm_pb_column_12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                                 <hr class="tm_pb_module tm_pb_space tm_pb_divider_15">
                                              </div>
                                           </div>
                                        </div>
                                     </div>
+
+                                    <div class="tm_pb_section bg_image tm_pb_section_4 tm_pb_with_background tm_section_regular">
+                                        <div class="container" id="section-contact">
+                    						<!-- Contact Form
+                    						============================================= -->
+                    						<div class="col_half" ng-controller="contactusFormController as contactus">
+                    							<h2>Send us a message now.</h2>
+                    							<div id="contact-form-result" ng-show="is_sent" >Message Sent Successfully!</div>
+
+                    							<form class="nobottommargin" ng-show="!is_sent" id="contactForm" name="contactForm" novalidate cg-busy="{promise:contactPromise,templateUrl:'{% static 'html/busy.html' %}'}">
+                    								{% csrf_token %}
+                    								<div class="form-process"></div>
+                    								<div class="col_one_third">
+                    									<label for="template-contactform-name">Name <small>*</small></label>
+                    									<input ng-model="contactus.fullname" type="text" id="contactus_fullname" name="contactus_fullname" value="" class="sm-form-control" required />
+                    									<div class="help-block" ng-messages="contactForm.contactus_fullname.$error" ng-show="contactForm.contactus_fullname.$touched">
+                    										<div ng-message="required">This field is required</div>
+                    									</div>
+                    								</div>
+                    								<div class="col_one_third">
+                    									<label for="template-contactform-email">Email <small>*</small></label>
+                    									<input ng-model="contactus.email" type="email" id="contactus_email" name="contactus_email" value="" class="sm-form-control" required />
+                    									<div class="help-block" ng-messages="contactForm.contactus_email.$error" ng-show="contactForm.contactus_email.$touched">
+                    										<div ng-message="required">This field is required</div>
+                    										<div ng-message="email">Your email address is invalid</div>
+                    									</div>
+                    								</div>
+
+                    								<div class="col_one_third col_last">
+                    									<label for="template-contactform-phone">Phone</label>
+                    									<input ng-model="contactus.phone" type="text" id="contactus_phone" name="contactus_phone" value="" class="sm-form-control" required />
+                    									<div class="help-block" ng-messages="contactForm.contactus_phone.$error" ng-show="contactForm.contactus_phone.$touched">
+                    										<div ng-message="required">This field is required</div>
+                    									</div>
+                    								</div>
+                    								<div class="clear"></div>
+                    								<div class="col_full">
+                    									<label for="template-contactform-message">Message <small>*</small></label>
+                    									<textarea ng-model="contactus.message" class="required sm-form-control" id="contactus_message" name="contactus_message" rows="6" cols="30" required></textarea>
+                    									<div class="help-block" ng-messages="contactForm.contactus_message.$error" ng-show="contactForm.contactus_message.$touched">
+                    										<div ng-message="required">This field is required</div>
+                    									</div>
+                    								</div>
+                    								<div class="col_full">
+                    									<button ng-click="send()" ng-disabled="contactForm.$invalid" name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Submit Comment</button>
+                    								</div>
+                    							</form>
+                    						</div><!-- Contact Form End -->
+
+                    						<!-- Google Map
+                    						============================================= -->
+                    						<div class="col_half col_last">
+                    							<section id="google-map" class="gmap" style="height: 410px;">
+                    								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3266.6509880098824!2d-85.15170418475863!3d35.04046018034859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88606382c60899dd%3A0xb5105bc521fd4639!2s7405+Shallowford+Rd%2C+Chattanooga%2C+TN+37421!5e0!3m2!1sen!2sus!4v1480990876772" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    							</section>
+                    						</div><!-- Google Map End -->
+                    					</div>
+                                   </div>
+
                                  </div>
                               </div>
                            </div>
@@ -608,7 +712,7 @@
          .tm_pb_slide_1{-moz-background-size:cover;-webkit-background-size:cover;background-size:cover}.tm_pb_builder #tm_builder_outer_content .tm_pb_divider_3:before{border-top-width:30px}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_link_box_1.tm_pb_link_box{font-size:16px;background-image:url({% static 'images/general.jpg' %})}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_divider_8{height:79px}.tm_pb_builder #tm_builder_outer_content
-         .tm_pb_section_2{background-color:#eeeeed;background-image:url({% static 'images/home06.jpg' %})}.tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_2.tm_pb_link_box h2, .tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_2.tm_pb_link_box h2
+         .tm_pb_section_2{background-color:#eeeeed;background-image:url({% static 'images/general.jpg' %})}.tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_2.tm_pb_link_box h2, .tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_2.tm_pb_link_box h2
          a{font-family:'Montserrat',Helvetica,Arial,Lucida,sans-serif}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_divider_7{height:99px}.tm_pb_builder #tm_builder_outer_content .tm_pb_divider_8:before{border-top-width:79px}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_divider_9{height:79px}.tm_pb_builder #tm_builder_outer_content .tm_pb_divider_10:before{border-top-width:80px}.tm_pb_builder #tm_builder_outer_content
@@ -616,7 +720,7 @@
          .tm_pb_divider_6{height:21px}.tm_pb_builder #tm_builder_outer_content .tm_pb_divider_4:before{border-top-width:30px}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_divider_4{height:30px}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_link_box_2.tm_pb_link_box{font-size:16px;background-image:url({% static 'images/children.jpg' %})}.tm_pb_builder #tm_builder_outer_content
-         .tm_pb_link_box_3.tm_pb_link_box{font-size:16px;background-image:url({% static 'images/home05.jpg' %})}.tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_3.tm_pb_link_box h2, .tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_3.tm_pb_link_box h2
+         .tm_pb_link_box_3.tm_pb_link_box{font-size:16px;background-image:url({% static 'images/general.jpg' %})}.tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_3.tm_pb_link_box h2, .tm_pb_builder #tm_builder_outer_content .tm_pb_link_box_3.tm_pb_link_box h2
          a{font-family:'Montserrat',Helvetica,Arial,Lucida,sans-serif}.tm_pb_builder #tm_builder_outer_content
          .tm_pb_divider_5{height:30px}.tm_pb_builder #tm_builder_outer_content .tm_pb_divider_5:before{border-top-width:30px}.tm_pb_builder #tm_builder_outer_content .tm_pb_slide_0
          .tm_pb_slide_content{font-size:47px !important}.tm_pb_slider .tm_pb_builder #tm_builder_outer_content .tm_pb_slide_0 .tm_pb_slide_description
