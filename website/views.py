@@ -7,7 +7,7 @@ from validate_email import validate_email
 from django.conf import settings
 
 # Create your views here.
-def index(request):
+def english(request):
 
     page_data = {}
     if request.method == 'POST':
@@ -22,8 +22,28 @@ def index(request):
         return JsonResponse({})
 
     page_data.update(csrf(request))
-    return render_to_response('home.html', page_data)
 
+
+    return render_to_response('home-en.html', page_data)
+
+def spanish(request):
+
+    page_data = {}
+    if request.method == 'POST':
+        message = 'Appointment Request' + "\n"
+        message += 'Name: ' + request.POST.get('name') + "\n"
+        message += 'Phone: ' + request.POST.get('phone') + "\n"
+        message += 'Email: ' + request.POST.get('email') + "\n"
+        message += 'Time: ' + request.POST.get('time') + "\n"
+        message += 'Message: ' + request.POST.get('message') + "\n\n"
+        message += settings.EMAIL_SIGNATURE
+        send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+        return JsonResponse({})
+
+    page_data.update(csrf(request))
+
+
+    return render_to_response('home-es.html', page_data)
 def sendmessage(request):
 
     if request.method == 'POST':

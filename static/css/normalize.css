@@ -37,7 +37,7 @@
     font-size: 14px;
     height: 40px;
     line-height: 40px;
-    background-color: #a05b7e;
+    background-color: #5b7444;
     color: #FFF;
     font-weight: 600;
     text-transform: uppercase;
@@ -8914,7 +8914,7 @@ img .entry-featured-image-url:hover::before,
     margin-top: 0
 }
 #tm_builder_outer_content .tm_pb_module.tm_pb_blurb .tm-pb-icon {
-    height: 200px;
+    padding-top: 50px;
     width: 200px;
     transition: 0.3s ease all
 }
@@ -10178,7 +10178,7 @@ body .booked-modal #tm_builder_outer_content .tm_pb_widget_area button.button {
 }
 @media (min-width: 992px) {
     #tm_builder_outer_content .tm_pb_link_box {
-        padding: 37px 180px 60px 60px
+        padding: 37px 70px 60px 60px
     }
 }
 @media (min-width: 1200px) {
