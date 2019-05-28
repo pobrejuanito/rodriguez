@@ -26,6 +26,25 @@ def english(request):
 
     return render_to_response('home-en.html', page_data)
 
+def landing(request):
+
+    page_data = {}
+    if request.method == 'POST':
+        message = 'Appointment Request' + "\n"
+        message += 'Name: ' + request.POST.get('name') + "\n"
+        message += 'Phone: ' + request.POST.get('phone') + "\n"
+        message += 'Email: ' + request.POST.get('email') + "\n"
+        message += 'Time: ' + request.POST.get('time') + "\n"
+        message += 'Message: ' + request.POST.get('message') + "\n\n"
+        message += settings.EMAIL_SIGNATURE
+        send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+        return JsonResponse({})
+
+    page_data.update(csrf(request))
+
+
+    return render_to_response('landing-page.html', page_data)
+
 def spanish(request):
 
     page_data = {}
