@@ -18,7 +18,7 @@ def english(request):
         message += 'Time: ' + request.POST.get('time') + "\n"
         message += 'Message: ' + request.POST.get('message') + "\n\n"
         message += settings.EMAIL_SIGNATURE
-        send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+        send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_FROM, settings.EMAIL_TO, fail_silently=False)
         return JsonResponse({})
 
     page_data.update(csrf(request))
@@ -38,7 +38,7 @@ def landing(request):
          message += 'Time: ' + request.POST.get('time') + "\n"
          message += 'Message: ' + request.POST.get('message') + "\n\n"
          message += settings.EMAIL_SIGNATURE
-         send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+         send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_FROM, settings.EMAIL_TO, fail_silently=False)
          return JsonResponse({})
 
    page_data.update(csrf(request))
@@ -55,7 +55,7 @@ def spanish(request):
          message += 'Time: ' + request.POST.get('time') + "\n"
          message += 'Message: ' + request.POST.get('message') + "\n\n"
          message += settings.EMAIL_SIGNATURE
-         send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+         send_mail(settings.EMAIL_APPOINTMENT_SUBJECT, message,  settings.EMAIL_FROM, settings.EMAIL_TO, fail_silently=False)
          return JsonResponse({})
 
    page_data.update(csrf(request))
@@ -70,7 +70,7 @@ def sendmessage(request):
          message += 'Email: ' + request.POST.get('email') + "\n"
          message += 'Message: ' + request.POST.get('message') + "\n\n"
          message += settings.EMAIL_SIGNATURE
-         send_mail(settings.EMAIL_CONTACTUS_SUBJECT, message, settings.EMAIL_TO, [settings.EMAIL_TO], fail_silently=False)
+         send_mail(settings.EMAIL_CONTACTUS_SUBJECT, message, settings.EMAIL_FROM, settings.EMAIL_TO, fail_silently=False)
    return JsonResponse({})
 
 def handler404(request):
