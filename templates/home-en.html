@@ -96,7 +96,7 @@
             td{border-color:#d4d7dc}#tm_builder_outer_content .tm_pb_booked_calendar .booked-calendar-shortcode-wrap .booked-calendar-wrap .booked-calendar tbody tr.entryBlock td .button:hover,.widget.widget_booked_calendar .booked-calendar-shortcode-wrap .booked-calendar-wrap .booked-calendar tbody tr.entryBlock td .button:hover{border-color:#000}.breadcrumbs{background:#fdfbf8}.breadcrumbs:before,.breadcrumbs:after{background:#fdfbf8}.breadcrumbs__item{color:#757575}.breadcrumbs__item-link{color:#5B7444}.breadcrumbs__item-sep{color:#d4d7dc}#tm_builder_outer_content .tm_audio_container .mejs-controls .mejs-time-rail .mejs-time-float{color:#fff !important}.header-container .header_left_text .phone-info
             p{color:#c4bbb2}.header-container .header_left_text .phone-info p:before{color:#c4bbb2}.header-container .header_left_text .phone-info
             a{color:#757575;font-family:'Montserrat',sans-serif}.header-container .header_left_text .phone-info a:hover{color:#5B7444}.header-container .site-branding .site-description{font-family:'Montserrat',sans-serif}@media (min-width: 768px){.site-header .header-container .site-menu.isStuck{background:#fff}.site-header .header-container .site-menu.isStuck::before{background:#fff}}#tm_builder_outer_content .tm_pb_with_background .tm_pb_module.tm_pb_blurb a:hover{color:#757575 !important}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb a:hover{color:#201f24}#tm_builder_outer_content .service-info .tm_pb_blurb .tm_pb_blurb_content h4
-            a{color:#757575}#tm_builder_outer_content .service-info .tm_pb_blurb .tm_pb_blurb_content h4 a:hover{color:#5B7444}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb .tm-pb-icon:hover{background:#5B7444 !important;border-color:#5B7444 !important}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb.liner .tm_pb_blurb_content
+            a{color:#757575}#tm_builder_outer_content .service-info .tm_pb_blurb .tm_pb_blurb_content h4 a:hover{color:#5B7444}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb .tm-pb-icon:hover{background:none !important;}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb.liner .tm_pb_blurb_content
             .tm_pb_blurb_content{background:rgba(91,116,68,0.9)}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb.liner .tm_pb_blurb_content .tm_pb_blurb_content h5, #tm_builder_outer_content .tm_pb_module.tm_pb_blurb.liner .tm_pb_blurb_content .tm_pb_blurb_content
             p{color:#fff}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb .tm-pb-icon-circle:hover{color:#fff !important}#tm_builder_outer_content .tm_pb_module.tm_pb_blurb .tm-pb-icon{color:#c4bbb2}#tm_builder_outer_content
             .tm_pb_audio_module{background-color:#5B7444}.tm_pb_testimonial:before{color:#5B7444}#tm_builder_outer_content .tm_pb_testimonial_author a:hover{color:#201f24}#tm_builder_outer_content .tm_pb_team_member .tm_pb_team_member_description .tm_pb_member_social_links .tm-pb-icon::before{color:#5B7444}#tm_builder_outer_content .tm_pb_team_member .tm_pb_team_member_description .tm_pb_member_social_links .tm-pb-icon:hover::before{color:#201f24}#tm_builder_outer_content .tm_pb_testimonial .tm_pb_testimonial_description .tm_pb_testimonial_description_inner
@@ -218,6 +218,10 @@
                                    <div ng-messages="appointmentForm.contact_message.$error" ng-show="appointmentForm.contact_message.$touched">
                                        <div ng-message="required">This field is required</div>
                                    </div>
+                                    <p class="sfax">
+                                       <label>Fax</label>
+                                       <input type="text" name="fax_number">
+                                    </p>
                                </div>
                                <div class="col_full">
                                    <button ng-click="send()" ng-disabled="appointmentForm.$invalid" class="button nomargin center" id="appointmentForm-submit" name="appointmentForm-submit" value="submit">Send Message</button>
@@ -577,6 +581,10 @@
                     									<div class="help-block" ng-messages="contactForm.contactus_message.$error" ng-show="contactForm.contactus_message.$touched">
                     										<div ng-message="required">This field is required</div>
                     									</div>
+                                             <p class="sfax">
+                                                <label>Fax</label>
+                                                <input ng-model="contactus.fax" type="text" name="contactus_fax_number" value="fax" />
+                                             </p>
                     								</div>
                     								<div class="col_full">
                     									<button ng-click="send()" ng-disabled="contactForm.$invalid" name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Submit Comment</button>

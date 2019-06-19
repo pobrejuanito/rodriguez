@@ -39,7 +39,8 @@ angular.module('avaApp', ['ngMessages','cgBusy'])
 
         $scope.is_sent = false;
         $scope.send = function() {
-
+         $scope.contactus.fax_number = '';
+         console.log($scope.contactus);
             var req = {
                 method: 'POST',
                 url: '/sendmessage/',
@@ -47,7 +48,7 @@ angular.module('avaApp', ['ngMessages','cgBusy'])
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             };
 
-
+            console.log(req.data);
             $scope.contactPromise = $http(req).then(function(response) {
 
                 $scope.is_sent = true;
